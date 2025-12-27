@@ -368,6 +368,7 @@
       <a href="#contributing" class="nav-link" data-doc="contributing"><span class="icon">🤝</span> Contributing</a>
       <a href="#security" class="nav-link" data-doc="security"><span class="icon">🔒</span> Security</a>
       <a href="#coc" class="nav-link" data-doc="coc"><span class="icon">📜</span> Code of Conduct</a>
+      <a href="#license" class="nav-link" data-doc="license"><span class="icon">⚖️</span> License</a>
     </div>
 
     <div class="nav-section">
@@ -402,7 +403,8 @@
       usage: 'https://raw.githubusercontent.com/mithun50/CortexFlow/master/docs/USAGE.md',
       contributing: 'https://raw.githubusercontent.com/mithun50/CortexFlow/master/CONTRIBUTING.md',
       security: 'https://raw.githubusercontent.com/mithun50/CortexFlow/master/SECURITY.md',
-      coc: 'https://raw.githubusercontent.com/mithun50/CortexFlow/master/CODE_OF_CONDUCT.md'
+      coc: 'https://raw.githubusercontent.com/mithun50/CortexFlow/master/CODE_OF_CONDUCT.md',
+      license: 'https://raw.githubusercontent.com/mithun50/CortexFlow/master/LICENSE'
     };
 
     const contentEl = document.getElementById('content');
@@ -449,6 +451,16 @@
       gfm: true
     });
 
+    // Map relative links to doc names
+    const LINK_MAP = {
+      'LICENSE': 'license',
+      'CONTRIBUTING.md': 'contributing',
+      'SECURITY.md': 'security',
+      'CODE_OF_CONDUCT.md': 'coc',
+      'docs/API.md': 'api',
+      'docs/USAGE.md': 'usage'
+    };
+
     async function loadDoc(docName) {
       const url = DOCS[docName];
       if (!url) return;
@@ -462,6 +474,21 @@
         contentEl.innerHTML = marked.parse(markdown);
         Prism.highlightAll();
         window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        // Intercept relative links in content
+        contentEl.querySelectorAll('a').forEach(link => {
+          const href = link.getAttribute('href');
+          if (href && !href.startsWith('http') && !href.startsWith('#')) {
+            const docKey = LINK_MAP[href];
+            if (docKey) {
+              link.addEventListener('click', (e) => {
+                e.preventDefault();
+                loadDoc(docKey);
+                history.pushState(null, '', `#${docKey}`);
+              });
+            }
+          }
+        });
 
         // Close mobile menu
         sidebar.classList.remove('active');
