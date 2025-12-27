@@ -3,64 +3,237 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CortexFlow Documentation</title>
+  <title>CortexFlow - AI-to-AI Task Continuation</title>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-typescript.min.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
   <style>
+    :root {
+      --bg: #0d1117;
+      --bg-secondary: #161b22;
+      --border: #30363d;
+      --text: #c9d1d9;
+      --text-muted: #8b949e;
+      --accent: #58a6ff;
+      --accent-hover: #79b8ff;
+      --success: #3fb950;
+    }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #333; max-width: 900px; margin: 0 auto; padding: 2rem; }
-    h1 { color: #2d3748; margin-bottom: 0.5rem; }
-    .subtitle { color: #718096; margin-bottom: 2rem; }
-    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin: 2rem 0; }
-    .card { background: #f7fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; text-decoration: none; color: inherit; transition: all 0.2s; }
-    .card:hover { border-color: #4299e1; box-shadow: 0 4px 12px rgba(66,153,225,0.15); }
-    .card h3 { color: #2b6cb0; margin-bottom: 0.5rem; }
-    .card p { color: #718096; font-size: 0.9rem; }
-    .badges { margin: 1.5rem 0; }
-    .badges img { margin-right: 0.5rem; }
-    a { color: #3182ce; }
-    code { background: #edf2f7; padding: 0.2rem 0.4rem; border-radius: 4px; font-size: 0.9rem; }
-    .install { background: #1a202c; color: #e2e8f0; padding: 1rem; border-radius: 8px; margin: 1.5rem 0; }
-    .install code { background: transparent; color: #68d391; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    .container { display: flex; min-height: 100vh; }
+
+    /* Sidebar */
+    .sidebar {
+      width: 280px;
+      background: var(--bg-secondary);
+      border-right: 1px solid var(--border);
+      padding: 1.5rem;
+      position: fixed;
+      height: 100vh;
+      overflow-y: auto;
+    }
+    .logo { font-size: 1.5rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem; }
+    .tagline { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1.5rem; }
+    .nav-section { margin-bottom: 1.5rem; }
+    .nav-title { color: var(--text-muted); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem; }
+    .nav-link {
+      display: block;
+      padding: 0.5rem 0.75rem;
+      color: var(--text);
+      text-decoration: none;
+      border-radius: 6px;
+      margin-bottom: 0.25rem;
+      transition: all 0.15s;
+    }
+    .nav-link:hover { background: var(--border); }
+    .nav-link.active { background: rgba(88,166,255,0.15); color: var(--accent); }
+    .badges { margin-top: 1.5rem; }
+    .badges a { margin-right: 0.5rem; }
+    .install-box {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.75rem;
+      margin-top: 1rem;
+      font-family: monospace;
+      font-size: 0.85rem;
+      color: var(--success);
+    }
+
+    /* Main Content */
+    .main {
+      flex: 1;
+      margin-left: 280px;
+      padding: 2rem 3rem;
+      max-width: 900px;
+    }
+    .content h1 { font-size: 2rem; margin: 2rem 0 1rem; color: #fff; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
+    .content h2 { font-size: 1.5rem; margin: 1.75rem 0 1rem; color: #fff; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
+    .content h3 { font-size: 1.25rem; margin: 1.5rem 0 0.75rem; color: #fff; }
+    .content h4 { font-size: 1rem; margin: 1.25rem 0 0.5rem; color: var(--text); }
+    .content p { margin-bottom: 1rem; }
+    .content a { color: var(--accent); text-decoration: none; }
+    .content a:hover { text-decoration: underline; }
+    .content code {
+      background: var(--bg-secondary);
+      padding: 0.2rem 0.4rem;
+      border-radius: 4px;
+      font-size: 0.9em;
+      font-family: 'SFMono-Regular', Consolas, monospace;
+    }
+    .content pre {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1rem;
+      overflow-x: auto;
+      margin: 1rem 0;
+    }
+    .content pre code { background: transparent; padding: 0; }
+    .content table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+    }
+    .content th, .content td {
+      border: 1px solid var(--border);
+      padding: 0.75rem;
+      text-align: left;
+    }
+    .content th { background: var(--bg-secondary); color: #fff; }
+    .content ul, .content ol { margin: 1rem 0; padding-left: 2rem; }
+    .content li { margin-bottom: 0.5rem; }
+    .content blockquote {
+      border-left: 4px solid var(--accent);
+      padding-left: 1rem;
+      margin: 1rem 0;
+      color: var(--text-muted);
+    }
+    .content img { max-width: 100%; border-radius: 6px; }
+    .loading { text-align: center; padding: 3rem; color: var(--text-muted); }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+      .sidebar { display: none; }
+      .main { margin-left: 0; padding: 1rem; }
+    }
   </style>
 </head>
 <body>
-  <h1>CortexFlow</h1>
-  <p class="subtitle">Universal MCP Server for AI-to-AI Task Continuation</p>
+  <div class="container">
+    <nav class="sidebar">
+      <div class="logo">CortexFlow</div>
+      <div class="tagline">AI-to-AI Task Continuation</div>
 
-  <div class="badges">
-    <a href="https://github.com/mithun50/CortexFlow"><img src="https://img.shields.io/github/stars/mithun50/CortexFlow?style=social" alt="GitHub Stars"></a>
-    <a href="https://www.npmjs.com/package/cortexflow"><img src="https://img.shields.io/npm/v/cortexflow?color=cb3837&logo=npm" alt="npm"></a>
-    <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License">
+      <div class="install-box">npm i -g cortexflow</div>
+
+      <div class="nav-section">
+        <div class="nav-title">Documentation</div>
+        <a href="#" class="nav-link active" data-doc="readme">README</a>
+        <a href="#" class="nav-link" data-doc="api">API Reference</a>
+        <a href="#" class="nav-link" data-doc="usage">Usage Guide</a>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-title">Community</div>
+        <a href="#" class="nav-link" data-doc="contributing">Contributing</a>
+        <a href="#" class="nav-link" data-doc="security">Security</a>
+        <a href="#" class="nav-link" data-doc="coc">Code of Conduct</a>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-title">Links</div>
+        <a href="https://github.com/mithun50/CortexFlow" class="nav-link" target="_blank">GitHub ↗</a>
+        <a href="https://www.npmjs.com/package/cortexflow" class="nav-link" target="_blank">npm ↗</a>
+        <a href="https://github.com/sponsors/mithun50" class="nav-link" target="_blank">Sponsor ↗</a>
+      </div>
+
+      <div class="badges">
+        <a href="https://github.com/mithun50/CortexFlow"><img src="https://img.shields.io/github/stars/mithun50/CortexFlow?style=flat&color=58a6ff" alt="Stars"></a>
+        <a href="https://www.npmjs.com/package/cortexflow"><img src="https://img.shields.io/npm/v/cortexflow?color=cb3837" alt="npm"></a>
+      </div>
+    </nav>
+
+    <main class="main">
+      <div id="content" class="content">
+        <div class="loading">Loading documentation...</div>
+      </div>
+    </main>
   </div>
 
-  <div class="install">
-    <code>npm install -g cortexflow</code>
-  </div>
+  <script>
+    const DOCS = {
+      readme: 'https://raw.githubusercontent.com/mithun50/CortexFlow/master/README.md',
+      api: 'https://raw.githubusercontent.com/mithun50/CortexFlow/master/docs/API.md',
+      usage: 'https://raw.githubusercontent.com/mithun50/CortexFlow/master/docs/USAGE.md',
+      contributing: 'https://raw.githubusercontent.com/mithun50/CortexFlow/master/CONTRIBUTING.md',
+      security: 'https://raw.githubusercontent.com/mithun50/CortexFlow/master/SECURITY.md',
+      coc: 'https://raw.githubusercontent.com/mithun50/CortexFlow/master/CODE_OF_CONDUCT.md'
+    };
 
-  <div class="cards">
-    <a href="https://github.com/mithun50/CortexFlow#readme" class="card">
-      <h3>📖 README</h3>
-      <p>Getting started guide, installation, and configuration for all supported AI clients.</p>
-    </a>
-    <a href="https://github.com/mithun50/CortexFlow/blob/master/docs/API.md" class="card">
-      <h3>🔧 API Reference</h3>
-      <p>MCP tools and HTTP endpoints documentation.</p>
-    </a>
-    <a href="https://github.com/mithun50/CortexFlow/blob/master/docs/USAGE.md" class="card">
-      <h3>📋 Usage Guide</h3>
-      <p>Workflow examples, agent roles, and best practices.</p>
-    </a>
-    <a href="https://github.com/mithun50/CortexFlow/blob/master/CONTRIBUTING.md" class="card">
-      <h3>🤝 Contributing</h3>
-      <p>How to contribute to CortexFlow development.</p>
-    </a>
-  </div>
+    const contentEl = document.getElementById('content');
+    const navLinks = document.querySelectorAll('.nav-link[data-doc]');
 
-  <h2>Supported AI Clients</h2>
-  <p>Claude Desktop, Cursor, VS Code, Antigravity, Zed, Jan, LM Studio, ChatGPT, Gemini, and more.</p>
+    marked.setOptions({
+      highlight: function(code, lang) {
+        if (Prism.languages[lang]) {
+          return Prism.highlight(code, Prism.languages[lang], lang);
+        }
+        return code;
+      },
+      breaks: true,
+      gfm: true
+    });
 
-  <p style="margin-top: 2rem; color: #a0aec0; font-size: 0.85rem;">
-    Created by <a href="https://github.com/mithun50">Mithun Gowda B</a> ·
-    <a href="https://github.com/sponsors/mithun50">Sponsor</a>
-  </p>
+    async function loadDoc(docName) {
+      const url = DOCS[docName];
+      if (!url) return;
+
+      contentEl.innerHTML = '<div class="loading">Loading...</div>';
+
+      try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error('Failed to load');
+        const markdown = await response.text();
+        contentEl.innerHTML = marked.parse(markdown);
+        Prism.highlightAll();
+        window.scrollTo(0, 0);
+      } catch (error) {
+        contentEl.innerHTML = '<div class="loading">Failed to load documentation. Please try again.</div>';
+      }
+
+      navLinks.forEach(link => {
+        link.classList.toggle('active', link.dataset.doc === docName);
+      });
+    }
+
+    navLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const docName = link.dataset.doc;
+        if (docName) {
+          loadDoc(docName);
+          history.pushState(null, '', `#${docName}`);
+        }
+      });
+    });
+
+    // Handle initial load and hash changes
+    function handleHash() {
+      const hash = window.location.hash.slice(1) || 'readme';
+      loadDoc(hash);
+    }
+
+    window.addEventListener('hashchange', handleHash);
+    handleHash();
+  </script>
 </body>
 </html>
