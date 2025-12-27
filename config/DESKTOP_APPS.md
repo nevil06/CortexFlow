@@ -16,8 +16,8 @@ Config location:
 {
   "mcpServers": {
     "cortexflow": {
-      "command": "node",
-      "args": ["/path/to/cortexflow/dist/index.js"]
+      "command": "npx",
+      "args": ["-y", "cortexflow"]
     }
   }
 }
@@ -30,7 +30,7 @@ Config location:
 2. Navigate to MCP Servers
 3. Add:
    - Name: `cortexflow`
-   - Command: `node /path/to/cortexflow/dist/index.js`
+   - Command: `npx -y cortexflow`
 
 ### VS Code + Continue
 **Platform**: macOS, Windows, Linux
@@ -43,14 +43,46 @@ Add to `.continue/config.json`:
       {
         "transport": {
           "type": "stdio",
-          "command": "node",
-          "args": ["/path/to/cortexflow/dist/index.js"]
+          "command": "npx",
+          "args": ["-y", "cortexflow"]
         }
       }
     ]
   }
 }
 ```
+
+### Antigravity (Google)
+**Platform**: macOS, Windows, Linux
+
+Config location: `~/.gemini/antigravity/mcp_config.json`
+
+Access via: **Agent Options (...)** → **MCP Servers** → **Manage MCP Servers** → **View raw config**
+
+**stdio mode:**
+```json
+{
+  "mcpServers": {
+    "cortexflow": {
+      "command": "npx",
+      "args": ["-y", "cortexflow"]
+    }
+  }
+}
+```
+
+**HTTP mode (remote):**
+```json
+{
+  "mcpServers": {
+    "cortexflow": {
+      "serverUrl": "http://localhost:3210"
+    }
+  }
+}
+```
+
+> **Note:** Antigravity uses `serverUrl` instead of `url` for HTTP-based MCP servers.
 
 ### Zed
 **Platform**: macOS, Linux
@@ -63,8 +95,8 @@ Add to Zed settings:
     "context_servers": {
       "cortexflow": {
         "command": {
-          "path": "node",
-          "args": ["/path/to/cortexflow/dist/index.js"]
+          "path": "npx",
+          "args": ["-y", "cortexflow"]
         }
       }
     }
@@ -80,8 +112,8 @@ Add to Jan's MCP configuration:
 {
   "mcpServers": {
     "cortexflow": {
-      "command": "node",
-      "args": ["/path/to/cortexflow/dist/index.js"]
+      "command": "npx",
+      "args": ["-y", "cortexflow"]
     }
   }
 }
@@ -95,8 +127,8 @@ If MCP is supported, add to settings:
 {
   "mcpServers": {
     "cortexflow": {
-      "command": "node",
-      "args": ["/path/to/cortexflow/dist/index.js"]
+      "command": "npx",
+      "args": ["-y", "cortexflow"]
     }
   }
 }
@@ -106,8 +138,8 @@ If MCP is supported, add to settings:
 **Platform**: macOS, Windows, Linux
 
 Add MCP server in Msty settings with:
-- Command: `node`
-- Args: `/path/to/cortexflow/dist/index.js`
+- Command: `npx`
+- Args: `-y cortexflow`
 
 ### Typing Mind
 **Platform**: Web, Desktop (Electron)
@@ -161,6 +193,7 @@ cortexflow --both
 
 This allows:
 - Claude Desktop → MCP (stdio)
+- Antigravity → MCP (stdio) or HTTP
 - ChatGPT Desktop → HTTP API
 - Same shared context for all!
 
@@ -181,17 +214,17 @@ curl http://localhost:3210/health
 ## Troubleshooting
 
 ### "Command not found"
-Use absolute path to node and cortexflow:
+Ensure Node.js and npm are installed globally, then use npx:
 ```json
 {
-  "command": "/usr/local/bin/node",
-  "args": ["/Users/you/cortexflow/dist/index.js"]
+  "command": "npx",
+  "args": ["-y", "cortexflow"]
 }
 ```
 
 ### Permission denied
 ```bash
-chmod +x /path/to/cortexflow/dist/index.js
+chmod +x $(which npx)
 ```
 
 ### Port already in use

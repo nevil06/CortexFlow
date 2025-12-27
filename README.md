@@ -1,5 +1,17 @@
 # CortexFlow
 
+[![CI](https://github.com/mithun50/CortexFlow/actions/workflows/ci.yml/badge.svg)](https://github.com/mithun50/CortexFlow/actions/workflows/ci.yml)
+[![Release](https://github.com/mithun50/CortexFlow/actions/workflows/release.yml/badge.svg)](https://github.com/mithun50/CortexFlow/actions/workflows/release.yml)
+[![Docs](https://github.com/mithun50/CortexFlow/actions/workflows/docs.yml/badge.svg)](https://github.com/mithun50/CortexFlow/actions/workflows/docs.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Node.js](https://img.shields.io/badge/Node.js-18%2B-green?logo=node.js)](https://nodejs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue?logo=typescript)](https://www.typescriptlang.org/)
+[![MCP](https://img.shields.io/badge/MCP-Compatible-purple)](https://modelcontextprotocol.io/)
+[![npm](https://img.shields.io/npm/v/cortexflow?color=cb3837&logo=npm)](https://www.npmjs.com/package/cortexflow)
+[![npm downloads](https://img.shields.io/npm/dm/cortexflow?color=cb3837&logo=npm)](https://www.npmjs.com/package/cortexflow)
+[![GitHub stars](https://img.shields.io/github/stars/mithun50/CortexFlow?style=social)](https://github.com/mithun50/CortexFlow)
+[![GitHub forks](https://img.shields.io/github/forks/mithun50/CortexFlow?style=social)](https://github.com/mithun50/CortexFlow/fork)
+
 **Universal MCP Server for AI-to-AI Task Continuation**
 
 CortexFlow is an MCP (Model Context Protocol) server that enables seamless handoff between AI agents. When you finish planning with ChatGPT, Claude Code can read the context and continue execution - without re-explaining the project.
@@ -49,6 +61,7 @@ CortexFlow is an MCP (Model Context Protocol) server that enables seamless hando
 | Claude Desktop | macOS, Windows, Linux | `claude_desktop_config.json` |
 | Cursor | macOS, Windows, Linux | Settings → MCP |
 | VS Code + Continue | macOS, Windows, Linux | `.continue/config.json` |
+| Antigravity | macOS, Windows, Linux | MCP settings |
 | Zed | macOS, Linux | Settings |
 | Jan | macOS, Windows, Linux | MCP settings |
 | LM Studio | macOS, Windows, Linux | MCP settings |
@@ -77,15 +90,23 @@ CortexFlow is an MCP (Model Context Protocol) server that enables seamless hando
 
 ## Installation
 
-```bash
-git clone https://github.com/user/cortexflow
-cd cortexflow
+### From npm (Recommended)
 
+```bash
+# Install globally
+npm install -g cortexflow
+
+# Or use directly with npx
+npx cortexflow
+```
+
+### From Source
+
+```bash
+git clone https://github.com/mithun50/CortexFlow
+cd CortexFlow
 npm install
 npm run build
-
-# Optional: install globally
-npm install -g .
 ```
 
 ## Configuration
@@ -98,8 +119,8 @@ Add to `~/.claude/mcp.json`:
 {
   "mcpServers": {
     "cortexflow": {
-      "command": "node",
-      "args": ["/absolute/path/to/cortexflow/dist/index.js"]
+      "command": "npx",
+      "args": ["-y", "cortexflow"]
     }
   }
 }
@@ -118,8 +139,8 @@ Add to config file:
 {
   "mcpServers": {
     "cortexflow": {
-      "command": "node",
-      "args": ["/absolute/path/to/cortexflow/dist/index.js"]
+      "command": "npx",
+      "args": ["-y", "cortexflow"]
     }
   }
 }
@@ -130,7 +151,7 @@ Add to config file:
 1. Open Settings → MCP Servers
 2. Add new server:
    - Name: `cortexflow`
-   - Command: `node /path/to/cortexflow/dist/index.js`
+   - Command: `npx -y cortexflow`
 
 ### VS Code + Continue
 
@@ -143,14 +164,44 @@ Add to `.continue/config.json`:
       {
         "transport": {
           "type": "stdio",
-          "command": "node",
-          "args": ["/path/to/cortexflow/dist/index.js"]
+          "command": "npx",
+          "args": ["-y", "cortexflow"]
         }
       }
     ]
   }
 }
 ```
+
+### Antigravity (Google)
+
+Add to `~/.gemini/antigravity/mcp_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "cortexflow": {
+      "command": "npx",
+      "args": ["-y", "cortexflow"]
+    }
+  }
+}
+```
+
+Or access via: **Agent Options (...)** → **MCP Servers** → **Manage MCP Servers** → **View raw config**
+
+For HTTP mode (remote):
+```json
+{
+  "mcpServers": {
+    "cortexflow": {
+      "serverUrl": "http://localhost:3210"
+    }
+  }
+}
+```
+
+> **Note:** Antigravity uses `serverUrl` instead of `url` for HTTP-based MCP servers.
 
 ### ChatGPT (Custom GPT)
 
@@ -160,8 +211,8 @@ Add to `.continue/config.json`:
 ### Generic MCP Client
 
 For any MCP-compatible client, use stdio transport:
-- Command: `node`
-- Args: `["/path/to/cortexflow/dist/index.js"]`
+- Command: `npx`
+- Args: `["-y", "cortexflow"]`
 
 ## MCP Tools
 
@@ -425,6 +476,18 @@ cortexflow --both
 - For remote access, use reverse proxy with auth
 - Never expose directly to internet
 
+## Support the Project
+
+If CortexFlow helps your workflow, consider supporting:
+
+[![GitHub Sponsors](https://img.shields.io/badge/Sponsor-GitHub-ea4aaa?logo=github)](https://github.com/sponsors/mithun50)
+
+## Author
+
+**Mithun Gowda B**
+- GitHub: [@mithun50](https://github.com/mithun50)
+- Email: mithungowda.b7411@gmail.com
+
 ## License
 
-MIT
+MIT License - see [LICENSE](LICENSE)

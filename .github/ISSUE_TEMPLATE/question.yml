@@ -1,0 +1,58 @@
+name: Question / Support
+description: Ask a question or request help with CortexFlow
+title: "[Question]: "
+labels: ["question", "support"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Have a question about CortexFlow? We're here to help!
+
+        Before asking, please:
+        - Check the [README](https://github.com/mithun50/CortexFlow#readme)
+        - Search [existing issues](https://github.com/mithun50/CortexFlow/issues)
+
+  - type: textarea
+    id: question
+    attributes:
+      label: Your Question
+      description: What would you like to know?
+      placeholder: Describe your question in detail...
+    validations:
+      required: true
+
+  - type: dropdown
+    id: topic
+    attributes:
+      label: Topic
+      description: What is your question about?
+      options:
+        - Installation / Setup
+        - Configuration
+        - MCP Integration
+        - HTTP API Usage
+        - AI Client Setup
+        - Task Management
+        - Context Sharing
+        - Performance
+        - Troubleshooting
+        - Best Practices
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: tried
+    attributes:
+      label: What have you tried?
+      description: What solutions have you already attempted?
+      placeholder: Describe what you've already tried...
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional Context
+      description: Any other information that might be helpful.
+      placeholder: Configuration files, error messages, screenshots, etc.
