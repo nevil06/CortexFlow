@@ -43,6 +43,7 @@ jobs:
     needs: build-docs
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
+    continue-on-error: true
 
     environment:
       name: github-pages
@@ -52,3 +53,4 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+        continue-on-error: true
