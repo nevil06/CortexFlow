@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CortexFlow Documentation</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #333; max-width: 900px; margin: 0 auto; padding: 2rem; }
+    h1 { color: #2d3748; margin-bottom: 0.5rem; }
+    .subtitle { color: #718096; margin-bottom: 2rem; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin: 2rem 0; }
+    .card { background: #f7fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.5rem; text-decoration: none; color: inherit; transition: all 0.2s; }
+    .card:hover { border-color: #4299e1; box-shadow: 0 4px 12px rgba(66,153,225,0.15); }
+    .card h3 { color: #2b6cb0; margin-bottom: 0.5rem; }
+    .card p { color: #718096; font-size: 0.9rem; }
+    .badges { margin: 1.5rem 0; }
+    .badges img { margin-right: 0.5rem; }
+    a { color: #3182ce; }
+    code { background: #edf2f7; padding: 0.2rem 0.4rem; border-radius: 4px; font-size: 0.9rem; }
+    .install { background: #1a202c; color: #e2e8f0; padding: 1rem; border-radius: 8px; margin: 1.5rem 0; }
+    .install code { background: transparent; color: #68d391; }
+  </style>
+</head>
+<body>
+  <h1>CortexFlow</h1>
+  <p class="subtitle">Universal MCP Server for AI-to-AI Task Continuation</p>
+
+  <div class="badges">
+    <a href="https://github.com/mithun50/CortexFlow"><img src="https://img.shields.io/github/stars/mithun50/CortexFlow?style=social" alt="GitHub Stars"></a>
+    <a href="https://www.npmjs.com/package/cortexflow"><img src="https://img.shields.io/npm/v/cortexflow?color=cb3837&logo=npm" alt="npm"></a>
+    <img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License">
+  </div>
+
+  <div class="install">
+    <code>npm install -g cortexflow</code>
+  </div>
+
+  <div class="cards">
+    <a href="https://github.com/mithun50/CortexFlow#readme" class="card">
+      <h3>📖 README</h3>
+      <p>Getting started guide, installation, and configuration for all supported AI clients.</p>
+    </a>
+    <a href="https://github.com/mithun50/CortexFlow/blob/master/docs/API.md" class="card">
+      <h3>🔧 API Reference</h3>
+      <p>MCP tools and HTTP endpoints documentation.</p>
+    </a>
+    <a href="https://github.com/mithun50/CortexFlow/blob/master/docs/USAGE.md" class="card">
+      <h3>📋 Usage Guide</h3>
+      <p>Workflow examples, agent roles, and best practices.</p>
+    </a>
+    <a href="https://github.com/mithun50/CortexFlow/blob/master/CONTRIBUTING.md" class="card">
+      <h3>🤝 Contributing</h3>
+      <p>How to contribute to CortexFlow development.</p>
+    </a>
+  </div>
+
+  <h2>Supported AI Clients</h2>
+  <p>Claude Desktop, Cursor, VS Code, Antigravity, Zed, Jan, LM Studio, ChatGPT, Gemini, and more.</p>
+
+  <p style="margin-top: 2rem; color: #a0aec0; font-size: 0.85rem;">
+    Created by <a href="https://github.com/mithun50">Mithun Gowda B</a> ·
+    <a href="https://github.com/sponsors/mithun50">Sponsor</a>
+  </p>
+</body>
+</html>
