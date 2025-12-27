@@ -19,11 +19,11 @@ async function ensureDir(dir) {
     try {
         await mkdir(dir, { recursive: true });
     }
-    catch (err) {
+    catch {
         // Directory already exists
     }
 }
-async function fileExists(path) {
+async function _fileExists(path) {
     try {
         await access(path);
         return true;

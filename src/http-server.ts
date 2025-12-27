@@ -13,7 +13,6 @@
 import { createServer as createHttpServer, IncomingMessage, ServerResponse } from "http";
 import { getStorage } from "./storage.js";
 import {
-  ProjectContext,
   Phase,
   TaskStatus,
   AgentRole,
@@ -290,7 +289,7 @@ async function handleNotes(req: IncomingMessage, res: ServerResponse): Promise<v
   const url = new URL(req.url ?? "/", `http://localhost:${PORT}`);
   const pathParts = url.pathname.split("/").filter(Boolean);
 
-  let context = await storage.getActiveProject();
+  const context = await storage.getActiveProject();
   if (!context) {
     error(res, "No active project", 404);
     return;

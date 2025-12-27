@@ -10,7 +10,6 @@ import { join, dirname } from "path";
 import { homedir } from "os";
 import {
   ProjectContext,
-  createProject,
   serializeContext,
   deserializeContext,
 } from "./models.js";
@@ -28,12 +27,12 @@ const DATA_DIR = process.env.CORTEXFLOW_DATA_DIR ?? join(homedir(), ".cortexflow
 async function ensureDir(dir: string): Promise<void> {
   try {
     await mkdir(dir, { recursive: true });
-  } catch (err) {
+  } catch {
     // Directory already exists
   }
 }
 
-async function fileExists(path: string): Promise<boolean> {
+async function _fileExists(path: string): Promise<boolean> {
   try {
     await access(path);
     return true;

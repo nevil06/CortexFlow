@@ -31,7 +31,6 @@ import {
   updateTaskNote,
   setPhase,
   getTask,
-  getPendingTasks,
   getProjectSummary,
 } from "./models.js";
 

@@ -234,7 +234,7 @@ async function handleNotes(req, res) {
     const storage = await getStorage();
     const url = new URL(req.url ?? "/", `http://localhost:${PORT}`);
     const pathParts = url.pathname.split("/").filter(Boolean);
-    let context = await storage.getActiveProject();
+    const context = await storage.getActiveProject();
     if (!context) {
         error(res, "No active project", 404);
         return;
